@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "main.js",
   "scripts": {
-    "start": "node ."
+    "start": "powershell -Command \"[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; New-Item -Path salvar/logs -ItemType Directory -Force; node main.js *>&1 | Tee-Object -Append -FilePath salvar/logs/logBot.txt\""
   },
   "keywords": [],
   "author": "",

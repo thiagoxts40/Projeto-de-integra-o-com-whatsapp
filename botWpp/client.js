@@ -10,7 +10,7 @@ const client = new Client({
 });
 
 client.on('ready', () => {
-    console.log('Client is ready!');
+    console.log('Tudo certo! Bot funcionando.');
 });
 
 client.on('qr', qr => {

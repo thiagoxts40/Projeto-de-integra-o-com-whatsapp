@@ -3,81 +3,102 @@
 
 # Documentação do Projeto: VPC Tech Chatbot
 
-Este projeto implementa um **chatbot assistente** para a empresa de manutenção de componentes de computador **VPC Tech**. Ele utiliza o **WhatsApp** como interface de comunicação e o **Ollama/Gemma** para processamento de linguagem natural, gerenciando o tráfego de requisições com o **PQueue**.
+Este projeto foi desenvolvido como parte do projeto "Viva Sua Profissão" e atua como uma **prova de conceito** de um chatbot assistente. Ele simula a operação da empresa fictícia **VPC Tech**, especializada em manutenção e componentes de computador. O projeto utiliza **IA local (Ollama)** integrada ao **WhatsApp** para demonstrar habilidades em automação, IA e gerenciamento de fluxo de dados.
 
------
+## Visão Geral e Arquitetura
 
-## Tecnologias Utilizadas
+O sistema é construído sobre a integração de tecnologias.
 
-| Tecnologia | Função Principal |
+Tecnologia | Função Principal |
 | :--- | :--- |
-| **`whatsapp-web.js`** | Integração e interface com o WhatsApp. |
-| **`ollama`** | Conexão com o modelo de Linguagem Grande (**LLM**) `gemma:7b` para gerar respostas. |
-| **`PQueue`** | Limita a concorrência a 1, garantindo que apenas uma requisição Ollama seja processada por vez. |
-| **`qrcode-terminal`** | Exibe o QR Code para login no WhatsApp diretamente no terminal. |
-| **Node.js** | Ambiente de execução. |
+**`whatsapp-web.js`** | Integração e comunicação com o WhatsApp. 
+**`ollama`** | Conexão com o **LLM** (`modelo escolhido`) para gerar as respostas. 
+**`PQueue`** | Gerencia o tráfego, limitando a concorrência a 1 requisição Ollama por vez. 
+`qrcode-terminal` | Exibe o QR Code para login no WhatsApp no terminal. 
+**Node.js** | Ambiente de execução. 
 
 -----
 
 ## Estrutura de Arquivos
 
-O projeto é dividido em dois arquivos principais:
+A organização do projeto é modular, separando a lógica de conexão, a lógica de negócios e outros dados de contexto.
 
-### 1\. `client.js` (Gerenciamento do WhatsApp)
+### Estrutura Raiz
 
-Este arquivo é responsável por inicializar e configurar a conexão com o WhatsApp.
-
-| Recurso | Descrição |
+| Arquivo/Pasta | Descrição |
 | :--- | :--- |
-| `LocalAuth` | Salva o estado da sessão (login) na pasta `salvar/`, evitando a necessidade de escanear o QR Code a cada reinicialização. |
-| Evento `qr` | Gera e exibe o QR Code no terminal para o login inicial do WhatsApp. |
-| Evento `ready` | Confirma que a conexão com o WhatsApp foi estabelecida com sucesso. |
-| `export default client` | Exporta a instância configurada do cliente WhatsApp para uso no `main.js`. |
+| **`main.js`** | O centro de controle: lógica principal, orquestração e fluxo da conversa. |
+| **`client.js`** | Configuração e inicialização do cliente WhatsApp. |
+| **`MemoryManager.js`** | Módulo responsável pela persistência e manipulação da memória de chat. |
+| **`salvar/`** | **Pasta de Persistência:** Armazena dados (`Auth` do WhatsApp e Logs/Memória). |
 
-### 2\. `main.js` (Lógica do Chatbot e IA)
+### 1\. `client-products/`
 
-Este é o coração do assistente. Ele gerencia as regras, a memória do chat, e a interação com a IA (Ollama).
+Esta pasta define o **contexto de negócio** que é injetado no *prompt* da IA para guiar o comportamento e a precisão das respostas.
+
+| Arquivo | Descrição |
+| :--- | :--- |
+| **`regrasBot.js`** | Define o papel, tom de voz, limites e regras de formatação do bot. |
+| **`agenda.js`** | Fornece a disponibilidade atual para agendamentos de serviços. |
+| **`estoque.js`** | Informa o status e a quantidade disponível de componentes. |
+
+### 2\. `MemoryManager.js`
+
+Este **módulo** é responsável pela manipulação de arquivos de memória, garantindo que o contexto das conversas persista, mesmo se houver reinicialização do bot.
+
+  * **`salvar/chatMemory.json`**: Arquivo JSON criado na pasta *salvar* onde o histórico de memória é persistido localmente.
+  * **Funcionalidades**: Exporta `load()` e `save()`.
+
+### 3\. `client.js` (Gerenciamento do WhatsApp)
+
+Configura a ponte entre o sistema e o WhatsApp:
+
+  * **Autenticação Persistente**: Usa `LocalAuth` para salvar o login na pasta `salvar/` após o primeiro login.
+  * **Eventos**: Gerencia os eventos `qr` (exibição do QR Code) e `ready` (confirmação da conexão).
+  * **Exportação**: Exporta a instância configurada do cliente.
+
+### 4\. `main.js` (Lógica e IA)
+
+O centro de controle que orquestra as interações e a memória da conversa.
 
 #### A. Inicialização e Controle de Fluxo
 
-1.  **`PQueue`:** Inicializado com `concurrency: 1`. Isso é crucial para evitar que múltiplas mensagens sobrecarreguem o serviço Ollama, processando as requisições sequencialmente.
-    ```javascript
-    const queue = new PQueue({ concurrency: 1 });
-    ```
-2.  **`chatMemory`:** Objeto global usado para armazenar o histórico de conversas de cada usuário (`chatId`), permitindo que a IA mantenha o **contexto** da conversa.
+1.  **Persistência da Memória**: O `main.js` importa o **`MemoryManager.js`** e chama **`MemoryManager.load()`** no início da execução.
+2.  **Fila Sequencial**: `const queue = new PQueue({ concurrency: 1 });` A concorrência limitada a **1** assegura que o serviço Ollama não seja sobrecarregado.
+3.  **Memória de Chat**: O objeto `chatMemory` armazena e recupera o histórico de conversas por usuário (`chatId`) para manter o **contexto**.
 
-#### B. As `botRules` (Regras de Negócio)
+#### B. Fluxo da Conversa (`client.on('message_create', ...)`)
 
-As regras são injetadas no histórico de cada chat como a mensagem inicial do sistema (`role: 'system'`). Elas definem o comportamento e o tom de voz do bot:
-
-  * **Foco Técnico:** Componentes e manutenção de computadores.
-  * **Tom de Voz:** Curto, direto, técnico e adaptável à linguagem do usuário.
-  * **Desvio de Assunto:** O bot sempre tenta retornar ao tema principal de computadores.
-  * **Limites:** Se a resposta não estiver disponível, o bot sugere retornar mais tarde.
-  * **Vendas/Preços:** **Nunca** fala de preços ou vendas, encaminhando o usuário para um humano.
-  * **Formato WhatsApp:** Respostas formatadas em um **único parágrafo** para otimização no app.
-
-#### C. Fluxo de Mensagens (`client.on('message_create', ...)`)
-
-1.  **Pré-Processamento:** Ignora mensagens enviadas pelo próprio bot e carrega ou inicializa a `chatMemory` para o `chatId` atual, incluindo as `botRules`.
-2.  **Adição à Fila:** A chamada ao `ollama.chat` é encapsulada em `await queue.add(async () => { ... })`. Isso garante que o processamento da IA para esta mensagem só comece após todas as requisições anteriores na fila terem terminado.
-3.  **Resposta:** Após a resposta da IA ser gerada e retornada pela fila, ela é enviada de volta ao usuário (`await message.reply(aiSays)`).
-4.  **Atualização de Memória:** A resposta da IA é salva no `chatMemory` para o contexto das próximas mensagens.
-5.  **Gerenciamento de Memória:** O histórico de cada chat é limitado a **6 mensagens** (incluindo o prompt do sistema) para controlar o consumo de recursos da IA e manter o contexto relevante.
+1.  **Montagem do Prompt**: `botRules`, `agenda` e `estoque` são convertidos em uma única *string* e injetado no `role: 'system'` do *prompt*.
+2.  **Processamento em Fila**: A chamada ao `ollama.chat` é encapsulada em `await queue.add(...)`.
+3.  **Atualização e Salvamento**: Após a resposta da IA ser gerada e o histórico ser atualizado, a função **`MemoryManager.save()`** é chamada para persistir os dados.
+4.  **Resposta e Feedback**: A resposta da IA é enviada ao usuário.
 
 -----
 
 ## Configuração e Execução
 
-Para rodar este projeto, você precisa garantir que:
+Para iniciar o chatbot, siga as etapas abaixo:
 
-1.  **Dependências instaladas:**
+1.  **Instalação de Dependências**:
+
     ```bash
     npm install whatsapp-web.js qrcode-terminal ollama p-queue
     ```
-2.  **Servidor Ollama:** O serviço Ollama precisa estar rodando localmente (ou acessível na rede) e o modelo `gemma:7b` deve estar baixado.
-3.  **Execução:** Inicie o bot no diretório do projeto:
+
+2.  **Serviço Ollama**:
+
+      * Garanta que o serviço **Ollama** esteja em execução.
+      * Baixe o modelo de linguagem ex: `ollama pull gemma:7b`.
+
+3.  **Inicialização do Bot**:
+
+    Execute no terminal:
+
     ```bash
-    node main.js
+    npm run start
     ```
-    Ao iniciar, um QR Code será exibido no terminal. Use o aplicativo WhatsApp do seu telefone para escanear e logar o bot.
+
+    O script `start` foi configurado para **salvar logs em `salvar/logs/logBot.txt`** e exibi-los no terminal em tempo real bem complexo (feito com Grok).
+
+    Ao iniciar, use o aplicativo WhatsApp do seu celular para escanear o **QR Code** exibido no terminal e autenticar o bot.
