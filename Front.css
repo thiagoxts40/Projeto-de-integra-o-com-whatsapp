@@ -1,184 +1,204 @@
-:root{
-    --bg:#071428;            /* fundo principal muito escuro */
-    --panel:#0b2540;         /* painel/section */
-    --accent-1:#1e90ff;      /* azul brilhante */
-    --accent-2:#00b4ff;      /* azul ciano */
-    --muted:#9fb6d8;         /* texto secundário */
-    --glass: rgba(255,255,255,0.04);
-    --glass-2: rgba(255,255,255,0.06);
-    --radius:14px;
-    --radius-sm:10px;
-    --card-shadow: 0 8px 24px rgba(2,8,23,0.6);
-    --glass-border: linear-gradient(145deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
-    --max-width:1200px;
-    --pad:clamp(14px, 2.5vw, 28px);
-    --trans:300ms cubic-bezier(.2,.8,.2,1);
-    font-family: Inter, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  }
-      body{
-        margin:0;
-    background:
-      radial-gradient(1200px 600px at 10% 10%, rgba(0,180,255,0.05), transparent 8%),
-      radial-gradient(900px 500px at 90% 90%, rgba(30,144,255,0.03), transparent 6%),
-      var(--bg);
-    color:#e6f2ff;
-    -webkit-font-smoothing:antialiased;
-    -moz-osx-font-smoothing:grayscale;
-    line-height:1.45;
-    padding: clamp(16px, 2vw, 32px);
-    
-    justify-content:center;
-      }
+:root {
+  background-color: #071428;
+  /* fundo principal muito escuro */
+  --panel: #0b2540;
+  /* painel/section */
+  --accent-1: #1e90ff;
+  /* azul brilhante */
+  --accent-2: #00b4ff;
+  /* azul ciano */
+  --muted: #9fb6d8;
+  /* texto secundário */
+  --glass: rgba(255, 255, 255, 0.04);
+  --glass-2: rgba(255, 255, 255, 0.06);
+  --radius: 14px;
+  --radius-sm: 10px;
+  --card-shadow: 0 8px 24px rgba(2, 8, 23, 0.6);
+  --glass-border: linear-gradient(145deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01));
+  --max-width: 1200px;
+  --pad: clamp(14px, 2.5vw, 28px);
+  --trans: 300ms cubic-bezier(.2, .8, .2, 1);
+  font-family: Inter, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
 
-      .menu{
-    width:100%;
-    max-width:var(--max-width);
-    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-    border-radius:20px;
-    padding: clamp(18px, 2.3vw, 36px);
-    box-shadow: var(--card-shadow);
-    border: 1px solid rgba(255,255,255,0.03);
-    backdrop-filter: blur(6px) saturate(110%);
-      }
-      
-      /* Estilo da lista de navegação */
-      .menu nav ul {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-        display: flex;
-        justify-content: center;
-        gap: 30px;
-      }
-      
-      /* Estilo dos links do menu */
-      .menu nav ul li a {
-        color: #fff;
-        text-decoration: none;
-        font-weight: bold;
-        padding: 8px 12px;
-        transition: background 0.3s, color 0.3s;
-      }
-      
-      /* Efeito hover nos links */
-      .menu nav ul li a:hover {
-        background-color: #00ffe7;
-        color: #000;
-        border-radius: 4px;
-      }
-      /*deixando o cartas de produtos flexivel */
-      #produtos{
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        border-radius: 6px;
-        margin: 10px;
+body {
+  margin: 0;
+  background:
+    radial-gradient(1200px 600px at 10% 10%, rgba(0, 180, 255, 0.05), transparent 8%),
+    radial-gradient(900px 500px at 90% 90%, rgba(30, 144, 255, 0.03), transparent 6%),
+    var(--bg);
+  color: #e6f2ff;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.45;
+  padding: clamp(16px, 2vw, 32px);
 
-        
-      }
-      /* definindo estilos para todos os cards*/
-#card{
-    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-    padding:18px;
-    border-radius: 6px;
-    text-align:center;
-    border: 1px solid rgba(255,255,255,0.03);
-    box-shadow: 0 10px 30px rgba(5,12,30,0.5);
-    transition: transform var(--trans), box-shadow var(--trans), border-color var(--trans);
-    cursor:default;
-    margin: 6px;
-    width: 250px;
-    min-height:150px;
-    align-items:center;
-    justify-content:center;
-    position:relative;
-    overflow:hidden;
-    text-align: center;
-    
+  justify-content: center;
+}
 
-    
-      }
-      /* definindo a imagem centralizada, tamanho e a rodinha*/
-      #card img{
-        width: 250px;
-        border-radius: 20px;
-        justify-content: center;  
-      }
-      #cardh3::after{
-        content: url("src/img/expand.png");
-        padding: 0px;
-        
-        margin-left: 7px;
-        
-        
-      }/*nome dos produtos*/
-      #card h3{
-        font-size: 18px;
-        text-transform: uppercase;
-        letter-spacing: 4px;
-        text-shadow: 0 0 4px #00ffe7, 0 0 20px #00ffe7, 0 0 40px #00ffe7;
-        animation: pulse 2s infinite; 
-        display: flex;
-        
+.menu {
+  width: 100%;
+  max-width: var(--max-width);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));
+  border-radius: 20px;
+  padding: clamp(18px, 2.3vw, 36px);
+  box-shadow: var(--card-shadow);
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(6px) saturate(110%);
+}
 
-      }/*para que a seta funcine corretamete*/
-      summary{
-       position: relative;
-      padding-left: 25px;
-      cursor: pointer;
-      list-style: none; /* Remove a seta padrão */
-      }
-      
-  #card:hover{
-    transform: translateY(-8px);
-    box-shadow: 0 18px 40px rgba(2,18,40,0.6);
-    border-color: rgba(30,144,255,0.14);
-  }/*roda pé da pagina*/
-  footer{
-    margin-top:12px;
-    padding:18px;
-    background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));
-    color:var(--muted);
-    text-align:center;
-    border-radius:12px;
-    font-size:0.95rem;
-    border:1px solid rgba(255,255,255,0.02);
-  }
-  /*botão do whatsapp para entrar em contato*/
-   .btn-whatsapp {
-    display:inline-block;
-    margin-top: 10px;
-    padding: 12px 18px;
-    background: linear-gradient(90deg, #25D366, #128C7E);
-    color: #fff;
-    font-weight: 600;
-    border-radius: 12px;
-    text-decoration: none;
-    font-size: 1rem;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    box-shadow: 0 6px 20px rgba(18,140,126,0.3);
-  }
-  .btn-whatsapp:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 25px rgba(18,140,126,0.4);
-  }
-  .btn-whatsapp:active {
-    transform: scale(0.96);
-  }
-  /*botão de enviar seus dados*/
-  .btn-enviar {
-    background: linear-gradient(90deg, #1e90ff, #00b4ff);
-    border: none;
-    padding: 12px;
-    color: #fff;
-    font-weight: bold;
-    border-radius: 10px;
-    cursor: pointer; 
-    margin-top: 6px;
-  }
-  
-  .btn-enviar:hover {
-    background: linear-gradient(90deg, #00b4ff, #1e90ff);
-    box-shadow: 0 6px 20px rgba(30,144,255,0.4);
-    transform: translateY(-2px);
-  }
+/* Estilo da lista de navegação */
+.menu nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+}
+
+/* Estilo dos links do menu */
+.menu nav ul li a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 8px 12px;
+  transition: background 0.3s, color 0.3s;
+}
+
+/* Efeito hover nos links */
+.menu nav ul li a:hover {
+  background-color: #00ffe7;
+  color: #000;
+  border-radius: 4px;
+}
+
+/*deixando o cartas de produtos flexivel */
+#produtos {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  border-radius: 6px;
+  margin: 10px;
+
+
+}
+
+/* definindo estilos para todos os cards*/
+#card {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));
+  padding: 18px;
+  border-radius: 6px;
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  box-shadow: 0 10px 30px rgba(5, 12, 30, 0.5);
+  transition: transform var(--trans), box-shadow var(--trans), border-color var(--trans);
+  cursor: default;
+  margin: 6px;
+  width: 250px;
+  min-height: 150px;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+
+
+
+}
+
+/* definindo a imagem centralizada, tamanho e a rodinha*/
+#card img {
+  width: 250px;
+  justify-content: center;
+}
+
+#cardh3::after {
+  content: url("src/img/expand.png");
+  padding: 0px;
+
+  margin-left: 7px;
+
+
+}
+
+/*nome dos produtos*/
+#card h3 {
+  font-size: 18px;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  text-shadow: 0 0 4px #00ffe7, 0 0 20px #00ffe7, 0 0 40px #00ffe7;
+  animation: pulse 2s infinite;
+  display: flex;
+
+
+}
+
+/*para que a seta funcine corretamete*/
+summary {
+  position: relative;
+  padding-left: 25px;
+  cursor: pointer;
+  list-style: none;
+  /* Remove a seta padrão */
+}
+
+#card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 18px 40px rgba(2, 18, 40, 0.6);
+  border-color: rgba(30, 144, 255, 0.14);
+}
+
+/*roda pé da pagina*/
+footer {
+  margin-top: 12px;
+  padding: 18px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.01), rgba(255, 255, 255, 0.005));
+  color: var(--muted);
+  text-align: center;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  border: 1px solid rgba(255, 255, 255, 0.02);
+}
+
+/*botão do whatsapp para entrar em contato*/
+.btn-whatsapp {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 12px 18px;
+  background: linear-gradient(90deg, #25D366, #128C7E);
+  color: #fff;
+  font-weight: 600;
+  border-radius: 12px;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 6px 20px rgba(18, 140, 126, 0.3);
+}
+
+.btn-whatsapp:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(18, 140, 126, 0.4);
+}
+
+.btn-whatsapp:active {
+  transform: scale(0.96);
+}
+
+/*botão de enviar seus dados*/
+.btn-enviar {
+  background: linear-gradient(90deg, #1e90ff, #00b4ff);
+  border: none;
+  padding: 12px;
+  color: #fff;
+  font-weight: bold;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-top: 6px;
+}
+
+.btn-enviar:hover {
+  background: linear-gradient(90deg, #00b4ff, #1e90ff);
+  box-shadow: 0 6px 20px rgba(30, 144, 255, 0.4);
+  transform: translateY(-2px);
+}
