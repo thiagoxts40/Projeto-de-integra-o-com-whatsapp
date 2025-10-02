@@ -1,4 +1,4 @@
- :root{
+:root{
     --bg:#071428;            /* fundo principal muito escuro */
     --panel:#0b2540;         /* painel/section */
     --accent-1:#1e90ff;      /* azul brilhante */
@@ -29,6 +29,7 @@
     
     justify-content:center;
       }
+
       .menu{
     width:100%;
     max-width:var(--max-width);
@@ -39,6 +40,33 @@
     border: 1px solid rgba(255,255,255,0.03);
     backdrop-filter: blur(6px) saturate(110%);
       }
+      
+      /* Estilo da lista de navegação */
+      .menu nav ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        gap: 30px;
+      }
+      
+      /* Estilo dos links do menu */
+      .menu nav ul li a {
+        color: #fff;
+        text-decoration: none;
+        font-weight: bold;
+        padding: 8px 12px;
+        transition: background 0.3s, color 0.3s;
+      }
+      
+      /* Efeito hover nos links */
+      .menu nav ul li a:hover {
+        background-color: #00ffe7;
+        color: #000;
+        border-radius: 4px;
+      }
+      /*deixando o cartas de produtos flexivel */
       #produtos{
         display: flex;
         flex-wrap: wrap;
@@ -48,8 +76,8 @@
 
         
       }
-      
-      #card{
+      /* definindo estilos para todos os cards*/
+#card{
     background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
     padding:18px;
     border-radius: 6px;
@@ -65,18 +93,47 @@
     justify-content:center;
     position:relative;
     overflow:hidden;
+    text-align: center;
+    
 
     
       }
-      #card p{
-      color: rgb(158, 157, 157);
+      /* definindo a imagem centralizada, tamanho e a rodinha*/
+      #card img{
+        width: 250px;
+        border-radius: 20px;
+        justify-content: center;  
+      }
+      #cardh3::after{
+        content: url("src/img/expand.png");
+        padding: 0px;
+        
+        margin-left: 7px;
+        
+        
+      }/*nome dos produtos*/
+      #card h3{
+        font-size: 18px;
+        text-transform: uppercase;
+        letter-spacing: 4px;
+        text-shadow: 0 0 4px #00ffe7, 0 0 20px #00ffe7, 0 0 40px #00ffe7;
+        animation: pulse 2s infinite; 
+        display: flex;
+        
+
+      }/*para que a seta funcine corretamete*/
+      summary{
+       position: relative;
+      padding-left: 25px;
+      cursor: pointer;
+      list-style: none; /* Remove a seta padrão */
       }
       
   #card:hover{
     transform: translateY(-8px);
     box-shadow: 0 18px 40px rgba(2,18,40,0.6);
     border-color: rgba(30,144,255,0.14);
-  }
+  }/*roda pé da pagina*/
   footer{
     margin-top:12px;
     padding:18px;
@@ -87,6 +144,7 @@
     font-size:0.95rem;
     border:1px solid rgba(255,255,255,0.02);
   }
+  /*botão do whatsapp para entrar em contato*/
    .btn-whatsapp {
     display:inline-block;
     margin-top: 10px;
@@ -107,6 +165,7 @@
   .btn-whatsapp:active {
     transform: scale(0.96);
   }
+  /*botão de enviar seus dados*/
   .btn-enviar {
     background: linear-gradient(90deg, #1e90ff, #00b4ff);
     border: none;
@@ -123,4 +182,3 @@
     box-shadow: 0 6px 20px rgba(30,144,255,0.4);
     transform: translateY(-2px);
   }
-
