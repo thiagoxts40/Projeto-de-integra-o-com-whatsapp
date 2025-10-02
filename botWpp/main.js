@@ -24,7 +24,7 @@ const chatMemory = MemoryManager.getMemory();
 
 client.on('message_create', async message => {
     if (message.fromMe) {
-        console.log("Eu disse: " + message.body)
+        console.log(`${new Date().toLocaleDateString()} | ${new Date().toLocaleTimeString()} - Resposta IA || HUMANO: ${message.body}`)
         return;
     }
 
@@ -32,7 +32,7 @@ client.on('message_create', async message => {
     const userMessage = message.body;
 
     console.log(`${new Date().toLocaleDateString()} | ${new Date().toLocaleTimeString()} - Mensagem de ${chatId}: '${userMessage}'`);
-    console.log("...");
+    console.log("... ⏳");
 
     if (!chatMemory[chatId]) {
         chatMemory[chatId] = [{
@@ -45,7 +45,7 @@ client.on('message_create', async message => {
 
     chatMemory[chatId].push({
         role: 'user',
-        content: `${new Date().toLocaleDateString()} | ${new Date().toLocaleTimeString()}: ${userMessage}`
+        content: `${new Date().toLocaleDateString()} | ${new Date().toLocaleTimeString()} user: ${userMessage}`
     });
 
     try {
@@ -58,7 +58,6 @@ client.on('message_create', async message => {
 
         const aiSays = ollamaResponse.message.content;
         await message.reply(aiSays);
-        console.log(`${new Date().toLocaleDateString()} | ${new Date().toLocaleTimeString()}}- Resposta da IA: ${aiSays}`);
 
         chatMemory[chatId].push({
             role: 'assistant',

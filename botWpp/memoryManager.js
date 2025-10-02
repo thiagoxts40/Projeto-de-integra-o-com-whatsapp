@@ -17,7 +17,7 @@ async function save() {
     try {
         const jsonString = JSON.stringify(chatMemory, null, 2);
         await fs.writeFile(MemoryJSON, jsonString, 'utf-8');
-        console.log("Memória salva no disco.");
+        console.log("chatMemory.json salvo");
     } catch (error) {
         console.error("Erro ao salvar a memória:", error);
     }
