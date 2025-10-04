@@ -47,6 +47,8 @@ body {
   font-weight: bold;
   padding: 8px 12px;
   transition: background 0.3s, color 0.3s;
+  font-weight: bold;
+  font-size: large;
 }
 
 .menu nav ul li a:hover {
@@ -99,8 +101,12 @@ body {
 }
 
 #cardh3::after {
-  content: url("src/imgs/expand.png");
-  margin-left: 7px;
+  content: url("src/imgs/expand.svg");
+  margin-left: 8px;
+}
+
+#card details[open] #cardh3::after {
+  content: url("src/imgs/close.svg");
 }
 
 summary {
